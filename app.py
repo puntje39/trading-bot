@@ -2,6 +2,7 @@ from flask import Flask, jsonify
 from flask_cors import CORS
 import threading
 import time
+inport random
 
 app = Flask(__name__)
 CORS(app)
@@ -12,8 +13,6 @@ def run_bot():
     global latest_signals
 
     while True:
-        import random
-
         latest_signals = [
             {
                 "symbol": "BTC/USDT",
