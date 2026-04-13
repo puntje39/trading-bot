@@ -30,13 +30,11 @@ def run_bot():
             else:
                 signal = "LOWER"
 
-            latest_signals = [
-                {
-                    "symbol": "BTC/USDT",
-                    "signal": signal,
-                    "price": current_price
-                }
-            ]
+            latest_signals = [{
+                "symbol": "BTC/USDT",
+                "signal": signal,
+                "price": current_price
+            }]
 
             last_price = current_price
 
