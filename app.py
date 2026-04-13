@@ -12,11 +12,19 @@ def run_bot():
     global latest_signals
 
     while True:
+        import random
+
         latest_signals = [
-            {"symbol": "BTC/USDT", "signal": "HIGHER", "score": 6}
+            {
+                "symbol": "BTC/USDT",
+                "signal": random.choice(["HIGHER", "LOWER"]),
+                "score": random.randint(1, 10)
+            }
         ]
+
         print("Updated signals")
         time.sleep(10)
+       
 
 
 
