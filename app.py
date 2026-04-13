@@ -10,6 +10,11 @@ CORS(app)
 
 latest_signals = []
 
+
+GJ en J Punt <puntgjenj@gmail.com>
+21:13 (0 minuten geleden)
+aan mij
+
 def run_bot():
     global latest_signals
 
@@ -17,45 +22,35 @@ def run_bot():
 
     while True:
         try:
-            # 🔥 BTC prijs ophalen (Binance API)
             url = "https://api.binance.com/api/v3/ticker/price?symbol=BTCUSDT"
             response = requests.get(url)
             data = response.json()
 
             current_price = float(data["price"])
 
-            # eerste run
             if last_price is None:
-                signal = "NEUTRAL"
-                score = 5
+                signal = "WAIT"
+            elif current_price > last_price:
+                signal = "HIGHER"
             else:
-                if current_price > last_price:
-                    signal = "HIGHER"
-                    score = 7
-                else:
-                    signal = "LOWER"
-                    score = 7
-
-            last_price = current_price
+                signal = "LOWER"
 
             latest_signals = [
                 {
                     "symbol": "BTC/USDT",
                     "signal": signal,
-                    "score": score,
                     "price": current_price
                 }
             ]
 
-            print("Updated signals:", latest_signals)
+            last_price = current_price
+
+            print("Updated:", latest_signals)
 
         except Exception as e:
             print("Error:", e)
 
         time.sleep(10)
-       
-
-
 
 @app.route("/signals")
 def signals():
@@ -64,8 +59,5 @@ def signals():
 import os
 
 if __name__ == "__main__":
-    import threading
     threading.Thread(target=run_bot).start()
-    
-    port = int(os.environ.get("PORT", 10000))
-    app.run(host="0.0.0.0", port=port)
+    app.run(host="0.0.0.0", port=int(os.environ.get("PORT", 10000)))
