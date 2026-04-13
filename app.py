@@ -2,18 +2,13 @@ from flask import Flask, jsonify
 from flask_cors import CORS
 import threading
 import time
-import random
 import requests
 import os
+
 app = Flask(__name__)
 CORS(app)
 
 latest_signals = []
-
-
-GJ en J Punt <puntgjenj@gmail.com>
-21:13 (0 minuten geleden)
-aan mij
 
 def run_bot():
     global latest_signals
@@ -56,8 +51,7 @@ def run_bot():
 def signals():
     return jsonify(latest_signals)
 
-import os
-
 if __name__ == "__main__":
     threading.Thread(target=run_bot).start()
-    app.run(host="0.0.0.0", port=int(os.environ.get("PORT", 10000)))
+    port = int(os.environ.get("PORT", 10000))
+    app.run(host="0.0.0.0", port=port)
