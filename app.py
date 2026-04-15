@@ -1,22 +1,14 @@
-from flask import Flask, jsonify
-from flask_cors import CORS
-import threading
-import time
-import requests
-import os
-
-app = Flask(__name__)
-CORS(app)
-
-latest_signals = []
-
 def run_bot():
     global latest_signals
+
+    print("BOT STARTED 🚀")
 
     last_price = None
 
     while True:
         try:
+            print("Fetching price...")
+
             url = "https://api.binance.com/api/v3/ticker/price?symbol=BTCUSDT"
             response = requests.get(url)
             data = response.json()
@@ -41,15 +33,6 @@ def run_bot():
             print("Updated:", latest_signals)
 
         except Exception as e:
-            print("Error:", e)
+            print("ERROR IN BOT:", e)
 
         time.sleep(10)
-
-@app.route("/signals")
-def signals():
-    return jsonify(latest_signals)
-
-if __name__ == "__main__":
-    threading.Thread(target=run_bot).start()
-    port = int(os.environ.get("PORT", 10000))
-    app.run(host="0.0.0.0", port=port)
